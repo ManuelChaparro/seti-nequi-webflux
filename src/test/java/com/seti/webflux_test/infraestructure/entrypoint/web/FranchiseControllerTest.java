@@ -11,7 +11,6 @@ import com.seti.webflux_test.infraestructure.entrypoint.web.out.StockPerBranchIn
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -53,7 +52,7 @@ class FranchiseControllerTest {
                 .jsonPath("$.id").isEqualTo(1L)
                 .jsonPath("$.name").isEqualTo("Franquicia de Prueba");
 
-        Mockito.verify(franchiseUseCase, Mockito.times(1)).createFranchise(any(Franchise.class));
+        verify(franchiseUseCase, times(1)).createFranchise(any(Franchise.class));
     }
 
     @Test
