@@ -14,6 +14,8 @@ import reactor.core.publisher.Mono;
 interface SpringDataBranchR2dbcRepository extends R2dbcRepository<BranchR2DBCEntity, Long> {
 
     public Flux<Branch> findByFranchiseId(Long id);
+
+    Mono<Boolean> existsByName(String name);
 }
 
 @Repository
@@ -42,5 +44,10 @@ public class BranchRepositoryImpl implements BranchRepository{
     @Override
     public Flux<Branch> findByFranchiseId(Long id) {
         return springDataRepo.findByFranchiseId(id);
+    }
+
+    @Override
+    public Mono<Boolean> existsByName(String name) {
+        return springDataRepo.existsByName(name);
     }
 }

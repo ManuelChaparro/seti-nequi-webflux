@@ -12,7 +12,6 @@ import com.seti.webflux_test.domain.model.Branch;
 import com.seti.webflux_test.domain.usecase.BranchUseCase;
 import com.seti.webflux_test.infraestructure.entrypoint.web.in.BranchCreateRequestDTO;
 import com.seti.webflux_test.infraestructure.entrypoint.web.in.BranchUpdateRequestDTO;
-
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import reactor.core.publisher.Mono;
@@ -20,7 +19,6 @@ import reactor.core.publisher.Mono;
 @RestController
 @RequestMapping("/api/branch")
 @RequiredArgsConstructor
-
 public class BranchController {
     
     private final BranchUseCase branchUseCase;

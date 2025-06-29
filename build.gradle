@@ -57,9 +57,9 @@ tasks.jacocoTestReport {
     afterEvaluate {
         classDirectories.setFrom(files(classDirectories.files.collect {
             fileTree(dir: it, exclude: [
-                    '**/com/seti/webflux_test/infraestructure/entrypoint/web/dto/**',
                     '**/com/seti/webflux_test/domain/model/**',
                     '**/com/seti/webflux_test/WebfluxTestApplication.class',
+					'**/com/seti/webflux_test/infraestructure/entrypoint/web/exception/**',
                     '**/*R2DBCEntity.class',
                     '**/*Application.class'
             ])
