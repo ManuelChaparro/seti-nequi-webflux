@@ -84,5 +84,4 @@ class BranchControllerTest {
 
         verify(branchUseCase, times(1)).updateBranch(any(Branch.class));
     }
-
 }

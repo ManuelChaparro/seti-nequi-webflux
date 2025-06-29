@@ -37,7 +37,7 @@ class FranchiseControllerTest {
     @Test
     @DisplayName("POST /api/franchise - Debería crear una nueva franquicia")
     void shouldCreateNewFranchise() {
-        FranchiseCreateRequestDTO requestDTO = new FranchiseCreateRequestDTO("Franquicia de Prueba");
+        FranchiseCreateRequestDTO requestDTO = FranchiseCreateRequestDTO.builder().name("Franquicia de Prueba").build();
         Franchise createdFranchise = Franchise.builder().id(1L).name("Franquicia de Prueba").build();
 
         when(franchiseUseCase.createFranchise(any(Franchise.class)))

@@ -29,7 +29,12 @@ public class FranchiseUseCase {
     private final Logger logger = LoggerFactory.getLogger(FranchiseUseCase.class);
 
     public Mono<Franchise> createFranchise(Franchise franchise) {
-        return franchiseRepository.save(franchise);
+        return franchiseRepository.existsByName(franchise.getName())
+                .flatMap(result -> {
+                    if (Boolean.TRUE.equals(result))
+                        return Mono.error(new CustomException("Ya existe una franquicia con el mismo nombre."));
+                    return franchiseRepository.save(franchise);
+                });
     }
 
     public Flux<Franchise> listFranchises() {
@@ -37,9 +42,22 @@ public class FranchiseUseCase {
     }
 
     public Mono<Franchise> updateFranchise(Franchise franchise) {
-        return franchiseRepository.findById(franchise.getId())
-                .switchIfEmpty(Mono.error(new CustomException("La franquicia que desea actualizar no existe.")))
-                .flatMap(existingFranchise -> {
+
+        Mono<Boolean> isExistingByNameMono = franchiseRepository.existsByName(franchise.getName());
+        Mono<Franchise> findByIdMono = franchiseRepository.findById(franchise.getId())
+                .switchIfEmpty(Mono.error(new CustomException("La franquicia que desea actualizar no existe.")));
+
+        return Mono.zip(
+                findByIdMono,
+                isExistingByNameMono)
+                .flatMap(results -> {
+                    Franchise existingFranchise = results.getT1();
+                    Boolean existByName = results.getT2();
+
+                    if (Boolean.TRUE.equals(existByName) && !existingFranchise.getName().equals(franchise.getName()))
+                        return Mono
+                                .error(new CustomException("Ya existe una franquicia diferente con ese mismo nombre"));
+
                     Franchise updatedFranchise = existingFranchise.applyUpdates(franchise);
                     return franchiseRepository.save(updatedFranchise);
                 })

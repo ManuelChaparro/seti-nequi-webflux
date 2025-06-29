@@ -12,6 +12,8 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 interface SpringDataFranchiseR2dbcRepository extends R2dbcRepository<FranchiseR2DBCEntity, Long> {
+
+    Mono<Boolean> existsByName(String name);
 }
 
 @Repository
@@ -35,5 +37,10 @@ public class FranchiseRepositoryImpl implements FranchiseRepository {
     public Flux<Franchise> findAll() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'findAll'");
+    }
+
+    @Override
+    public Mono<Boolean> existsByName(String name) {
+        return springDataRepo.existsByName(name);
     }
 }
