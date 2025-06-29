@@ -2,6 +2,8 @@ package com.seti.webflux_test.domain.usecase;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.seti.webflux_test.domain.model.Franchise;
@@ -24,6 +26,8 @@ public class FranchiseUseCase {
     private final BranchRepository branchRepository;
     private final ProductRepository productRepository;
 
+    private final Logger logger = LoggerFactory.getLogger(FranchiseUseCase.class);
+
     public Mono<Franchise> createFranchise(Franchise franchise) {
         return franchiseRepository.save(franchise);
     }
@@ -42,7 +46,12 @@ public class FranchiseUseCase {
                 .flatMap(existingFranchise -> {
                     Franchise updatedFranchise = existingFranchise.applyUpdates(franchise);
                     return franchiseRepository.save(updatedFranchise);
-                });
+                })
+                .doOnNext(updatedItem ->
+                // Cumplimiento punto 4. OnNext / DoOnNext
+                // Simulamos el envío de un correo al usuario notificando que
+                // la información del producto fue actualizada exitosamente
+                logger.info("Franquicia actualizada: {}", updatedItem));
     }
 
     public Mono<StockPerBranchInFranchiseReport> findProductWithMoreStock(String id) {
@@ -59,10 +68,9 @@ public class FranchiseUseCase {
                 .switchIfEmpty(Mono.error(new CustomException("La franquicia que busca no existe.")));
 
         Mono<List<ProductStockReport>> branchReportMono = branchRepository.findByFranchiseId(franchiseId)
-                .flatMap(branch -> 
-                    productRepository.findMostStockedProductByBranchId(branch.getId())
-                            .map(product -> new ProductStockReport(branch.getName(), product))
-                            .switchIfEmpty(Mono.just(new ProductStockReport(branch.getName(), null)))
+                .flatMap(branch -> productRepository.findMostStockedProductByBranchId(branch.getId())
+                        .map(product -> new ProductStockReport(branch.getName(), product))
+                        .switchIfEmpty(Mono.just(new ProductStockReport(branch.getName(), null)))
 
                 )
                 .collectList();
