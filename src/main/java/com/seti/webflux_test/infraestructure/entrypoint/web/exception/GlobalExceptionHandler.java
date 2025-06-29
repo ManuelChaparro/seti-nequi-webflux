@@ -1,5 +1,7 @@
 package com.seti.webflux_test.infraestructure.entrypoint.web.exception;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,8 +30,11 @@ public class GlobalExceptionHandler {
         }
     }
 
+    private final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
+
     @ExceptionHandler(WebExchangeBindException.class)
     public Mono<ResponseEntity<ErrorResponse>> handleValidationExceptions(WebExchangeBindException ex) {
+        logger.error("SERVER-ERROR: Error de tipo WebExchangeBindException: {}", ex.getMessage());
         String errorMessage = ex.getBindingResult().getFieldErrors().stream()
                 .map(error -> error.getField() + ": " + error.getDefaultMessage())
                 .reduce("", (acc, msg) -> acc.isEmpty() ? msg : acc + "; " + msg);
@@ -44,12 +49,14 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(DataIntegrityViolationException.class)
     public Mono<ResponseEntity<ErrorResponse>> handleDataIntegrityViolationException(DataIntegrityViolationException ex) {
+        logger.error("SERVER-ERROR: Error de tipo DataIntegrityViolationException: {}", ex.getMessage());
         return Mono.just(ResponseEntity.status(HttpStatus.CONFLICT).body(new ErrorResponse(
                 HttpStatus.INTERNAL_SERVER_ERROR, "Error en el formulario, una de las relaciones que intenta asociar no existe.")));
     }
 
     @ExceptionHandler(Exception.class)
     public Mono<ResponseEntity<ErrorResponse>> handleGenericException(Exception ex) {
+        logger.error("SERVER-ERROR: Error de tipo Exception: message: {} / stacktrace: {}", ex.getMessage(), ex.getStackTrace());
         return Mono.just(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ErrorResponse(
                 HttpStatus.INTERNAL_SERVER_ERROR, "Error inesperado, intentelo más tarde.")));
     }
