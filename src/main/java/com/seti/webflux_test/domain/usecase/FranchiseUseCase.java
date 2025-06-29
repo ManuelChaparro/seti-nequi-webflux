@@ -36,10 +36,6 @@ public class FranchiseUseCase {
         return franchiseRepository.findAll();
     }
 
-    public Mono<Franchise> getFranchise(Long id) {
-        return franchiseRepository.findById(id);
-    }
-
     public Mono<Franchise> updateFranchise(Franchise franchise) {
         return franchiseRepository.findById(franchise.getId())
                 .switchIfEmpty(Mono.error(new CustomException("La franquicia que desea actualizar no existe.")))

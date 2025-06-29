@@ -29,10 +29,6 @@ public class BranchUseCase {
         return branchRepository.findAll();
     }
 
-    public Mono<Branch> getBranch(Long id) {
-        return branchRepository.findById(id);
-    }
-
     public Mono<Branch> updateBranch(Branch branch) {
         return branchRepository.findById(branch.getId())
                 .switchIfEmpty(Mono.error(new CustomException("La sucursal que desea actualizar no existe.")))
