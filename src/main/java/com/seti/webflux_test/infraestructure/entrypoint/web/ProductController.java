@@ -1,6 +1,5 @@
 package com.seti.webflux_test.infraestructure.entrypoint.web;
 
-import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;

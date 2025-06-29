@@ -1,6 +1,8 @@
 package com.seti.webflux_test.infraestructure.entrypoint.web;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -12,6 +14,7 @@ import com.seti.webflux_test.domain.model.Franchise;
 import com.seti.webflux_test.domain.usecase.FranchiseUseCase;
 import com.seti.webflux_test.infraestructure.entrypoint.web.in.FranchiseCreateRequestDTO;
 import com.seti.webflux_test.infraestructure.entrypoint.web.in.FranchiseUpdateRequestDTO;
+import com.seti.webflux_test.infraestructure.entrypoint.web.out.StockPerBranchInFranchiseReport;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -34,5 +37,11 @@ public class FranchiseController {
     @ResponseStatus(HttpStatus.OK)
     public Mono<Franchise> update(@Valid @RequestBody FranchiseUpdateRequestDTO franchiseRequestDTO){
         return franchiseUseCase.updateFranchise(franchiseRequestDTO.toDomain());
+    }
+
+    @GetMapping("/{id}/productsWithMoreStock")
+    @ResponseStatus(HttpStatus.OK)
+    public Mono<StockPerBranchInFranchiseReport> findProductWithMoreStock(@PathVariable String id){
+        return franchiseUseCase.findProductWithMoreStock(id);
     }
 }

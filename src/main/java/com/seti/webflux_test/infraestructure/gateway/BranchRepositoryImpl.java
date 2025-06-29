@@ -12,6 +12,8 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 interface SpringDataBranchR2dbcRepository extends R2dbcRepository<BranchR2DBCEntity, Long> {
+
+    public Flux<Branch> findByFranchiseId(Long id);
 }
 
 @Repository
@@ -35,5 +37,10 @@ public class BranchRepositoryImpl implements BranchRepository{
     public Flux<Branch> findAll() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'findAll'");
+    }
+
+    @Override
+    public Flux<Branch> findByFranchiseId(Long id) {
+        return springDataRepo.findByFranchiseId(id);
     }
 }

@@ -11,4 +11,6 @@ public interface ProductRepository {
     Mono<Void> delete(Long id);
 
     Mono<Product> findById(Long id);
+
+    Mono<Product> findMostStockedProductByBranchId(Long id);
 }

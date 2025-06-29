@@ -1,6 +1,7 @@
 package com.seti.webflux_test.infraestructure.gateway;
 
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.r2dbc.repository.Query;
 import org.springframework.data.r2dbc.repository.R2dbcRepository;
 import org.springframework.stereotype.Repository;
 
@@ -13,6 +14,9 @@ import lombok.RequiredArgsConstructor;
 import reactor.core.publisher.Mono;
 
 interface SpringDataProductR2dbcRepository extends R2dbcRepository<ProductR2DBCEntity, Long> {
+
+    @Query("SELECT * FROM product WHERE branch_id = :branchId ORDER BY stock DESC LIMIT 1")
+    Mono<ProductR2DBCEntity> findMostStockedProductByBranchIdCustomQuery(Long id);
 }
 
 @Repository
@@ -44,5 +48,10 @@ public class ProductRepositoryImpl implements ProductRepository {
     @Override
     public Mono<Product> findById(Long id) {
         return springDataRepo.findById(id).map(ProductR2DBCEntity::toDomain);
+    }
+
+    @Override
+    public Mono<Product> findMostStockedProductByBranchId(Long id) {
+        return springDataRepo.findMostStockedProductByBranchIdCustomQuery(id).map(ProductR2DBCEntity::toDomain);
     }
 }

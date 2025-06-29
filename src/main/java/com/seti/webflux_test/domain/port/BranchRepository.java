@@ -12,4 +12,6 @@ public interface BranchRepository {
     Mono<Branch> findById(Long id);
 
     Flux<Branch> findAll();
+
+    Flux<Branch> findByFranchiseId(Long id);
 }
