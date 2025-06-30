@@ -184,7 +184,16 @@ Con la libreria reactor, se implementa el termino de componentes reactivos / no 
 
 ### R2DBC
 
+Generalmente, el uso de bases de datos relacionales ha sido el estándar para la implementación de aplicaciones empresariales de alto nivel, debido a la consistencia, fiabilidad y fuerte relación de almacenamiento de registros. **Postresql** es un motor de bases de datos relacional que actualmente está fuertemente optimizado para el uso de implementaciones reactivas con el driver R2DBC, el cual es un ORM que nos permite simplificar el uso de querys sql y proporcionando directamente el manejo de eventos reactivos con Mono<T> y Flux<T>.
+
+Inicialmente se pensó implementar una solución con MongoDB, debido a la rapidez que ofrecen las bases de datos no relacionales en cuanto a lectura de datos, sin embargo, comúnmente en entornos empresariales o bancarios, la consistencia de datos y fiabilidad en los registros y transacciones es lo más importante a la hora de implementar soluciones tecnológicas, por lo cual, se tomó la decisión de trabajar con una DB relacional capaz de soportar transacciones reactivas no bloqueantes, Postgresql y el ORM R2DBC son el candidato perfecto.
+
 ### Docker
 
+Un desafío común a la hora de trabajar en equipos de desarrollo e incluso a la hora de llevar despliegues a producción o pruebas, es la dificultad de implementar un ambiente estable replicando el funcionamiento del entorno local en el cual se desarrollo la aplicación. Para ello, Docker soluciona muchos de estos problemas.
+
+Docker es una maquina virtual que, en escencia, corre por debajo el SO Linux y que, estableciendo una serie de comandos los cuales se podrian asimilar a los mismo que se corren en una terminal, se puede realizar el despliegue de una aplicación. Docker, al ejecutar Linux independientemente del entorno en el cual se despliegue, no tiene problema en ejecutar los mismos comandos de despliegue independientemente de si estamos en un entorno local, pruebas o productivo.
+
+Se decidio usarlo debido a que, como ya se ha mencionado, facilita el despliegue de la aplicación independientemente del entorno en el que estemos o quien lo esté ejecutando, (Ideal para este caso en el cual se desea realizar el análisis del API REST realizado).
 
 ### AWS ECR, ECS Fargate, RDS
