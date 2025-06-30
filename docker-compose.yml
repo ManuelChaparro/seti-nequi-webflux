@@ -1,0 +1,15 @@
+services:
+
+  seti-webflux-test:
+    container_name: seti-webflux-test
+    build:
+      context: ./webflux-test
+      dockerfile: seti-webflux.dockerfile
+      args:
+        - DB-URL=${DB-URL}
+        - DB-USER=${DB-USER}
+        - DB-PASS=${DB-PASS}
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env
