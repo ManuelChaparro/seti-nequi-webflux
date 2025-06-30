@@ -87,6 +87,10 @@ Para efectos prácticos, la implementación de las API por defecto se dejan docu
 |-----------------------|------------------|---------------------------------------|
 | Lista de Franquicias  | GET              | http://3.148.244.6:3000/api/franchise |
 
+| Funcionalidad                           | Tipo de Petición |  API                                                                        |
+|-----------------------------------------|------------------|-----------------------------------------------------------------------------|
+| Productos con mayor stock por sucursal  | GET              | http://3.148.244.6:3000/api/franchise/{id_franquicia}/productsWithMoreStock |
+
 # Sucursal
 
 | Funcionalidad    | Tipo de Petición |  API                                  |
@@ -164,3 +168,23 @@ Para restar 10 productos de stock al producto
 
 ## Consideraciones de diseño
 
+A continuación se exponen las diferentes consideraciones arquitectonicas que se tuvieron en cuenta al momento de diseñar la aplicación
+
+### Clean Architecture Scaffolding
+
+A nivel de estructuración, el proyecto se compone principalmente de dos capas, **domain** y **infraestructure**, domain compone la logica de negocio de nuestra aplicación, mientras que infraestructure contiene las tecnologías necesarias e implementaciones de nuestra capa domain.
+
+En base al mantenimiento futuro de una aplicación, flexibilidad y testeabilidad se propone una arquitectura limpia basada en el desacoplamiento de la capa lógica y la infraestructura de la aplicación, esto permite que, a nivel de código, tengamos mejor organizada nuestra implementación sin necesidad de acoplar fuertemente dependencias tecnologicas en nuestro sistema, aumentando la modularización de componentes y facilidad de implementacíon de nuevas features sin necesidad de malograr lo ya desarrollado.
+
+### Springboot Webflux
+
+Actualmente, la gran mayoría de aplicaciones empresariales asumen el desafío constante de lidiar con un alto tráfico de usuarios recurrentes dentro del sistema. Dentro de un entorno bloqueante, se vuelve una gran preocupación cuando nuestra aplicación recibe miles de solicitudes en cortos periodos de tiempo, aumentando tiempos de respuesta lo que incurre en una mala experiencia para el usuario.
+
+Con la libreria reactor, se implementa el termino de componentes reactivos / no bloqueantes que, a partir de la distribucion de diferentes hilos para el llamado de peticiones asincronas, se disminuye notablemente los tiempos de respuesta cuando la aplicación cuenta con un alto tráfico de usuarios en un corto periodo de tiempo.
+
+### R2DBC
+
+### Docker
+
+
+### AWS ECR, ECS Fargate, RDS
