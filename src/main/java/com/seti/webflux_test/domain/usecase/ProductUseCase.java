@@ -9,6 +9,7 @@ import com.seti.webflux_test.domain.port.ProductRepository;
 import com.seti.webflux_test.infraestructure.entrypoint.web.exception.CustomException;
 
 import lombok.RequiredArgsConstructor;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Service
@@ -23,14 +24,14 @@ public class ProductUseCase {
 
         // Cumplimiento punto 4. OnError / DoOnError
         return productRepository.save(product)
-                .doOnError(err -> {
+                .doOnError(err -> 
                     // Podriamos "Simular" que en caso de un error al agregar un producto
                     // Se le envíe una notificación al usuario vía correo
                     logger.info(
                             "SIMULACIÓN DE CORREO: No fue posible crear el producto {} con stock {}, debido a: {}",
                             product.getName(),
-                            product.getStock(), err.getMessage());
-                });
+                            product.getStock(), err.getMessage())
+                );
     }
 
     public Mono<Product> updateProduct(Product product) {
@@ -85,5 +86,9 @@ public class ProductUseCase {
                     // Que el stock del producto fue actualizado
                     logger.info("SIMULACIÓN DE CORREO: Se actualizo el stock del producto {} a {} unidades.", updatedProduct.getName(), updatedProduct.getStock())
                 );
+    }
+
+    public Flux<Product> findAll() {
+        return productRepository.findAll();
     }
 }

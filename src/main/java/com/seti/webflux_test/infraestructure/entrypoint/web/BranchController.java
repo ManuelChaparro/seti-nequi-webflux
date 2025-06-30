@@ -1,6 +1,7 @@
 package com.seti.webflux_test.infraestructure.entrypoint.web;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,6 +15,7 @@ import com.seti.webflux_test.infraestructure.entrypoint.web.in.BranchCreateReque
 import com.seti.webflux_test.infraestructure.entrypoint.web.in.BranchUpdateRequestDTO;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @RestController
@@ -33,5 +35,11 @@ public class BranchController {
     @ResponseStatus(HttpStatus.OK)
     public Mono<Branch> update(@Valid @RequestBody BranchUpdateRequestDTO branchRequestDTO){
         return branchUseCase.updateBranch(branchRequestDTO.toDomain());
+    }
+
+    @GetMapping
+    @ResponseStatus(HttpStatus.OK)
+    public Flux<Branch> findAll(){
+        return branchUseCase.findAll();
     }
 }

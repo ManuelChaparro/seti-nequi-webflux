@@ -1,10 +1,10 @@
-package com.seti.webflux_test.infraestructure.gateway.data;
+package com.seti.webflux_test.infraestructure.drivenadapter.data;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 
-import com.seti.webflux_test.domain.model.Branch;
+import com.seti.webflux_test.domain.model.Franchise;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,9 +15,8 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table("branch")
-
-public class BranchR2DBCEntity {
+@Table("franchise")
+public class FranchiseR2DBCEntity {
     
     @Id
     @Column("_id")
@@ -25,22 +24,17 @@ public class BranchR2DBCEntity {
 
     private String name;
 
-    @Column("franchise_id")
-    private Long franchiseId;
-
-    public static BranchR2DBCEntity fromDomain(Branch domain) {
-        return BranchR2DBCEntity.builder()
+    public static FranchiseR2DBCEntity fromDomain(Franchise domain) {
+        return FranchiseR2DBCEntity.builder()
                 .id(domain.getId())
                 .name(domain.getName())
-                .franchiseId(domain.getFranchiseId())
                 .build();
     }
 
-    public Branch toDomain() {
-        return Branch.builder()
+    public Franchise toDomain() {
+        return Franchise.builder()
                 .id(this.id)
                 .name(this.name)
-                .franchiseId(this.franchiseId)
                 .build();
     }
 }

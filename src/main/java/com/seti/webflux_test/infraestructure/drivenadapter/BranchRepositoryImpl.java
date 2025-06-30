@@ -1,11 +1,11 @@
-package com.seti.webflux_test.infraestructure.gateway;
+package com.seti.webflux_test.infraestructure.drivenadapter;
 
 import org.springframework.data.r2dbc.repository.R2dbcRepository;
 import org.springframework.stereotype.Repository;
 
 import com.seti.webflux_test.domain.model.Branch;
 import com.seti.webflux_test.domain.port.BranchRepository;
-import com.seti.webflux_test.infraestructure.gateway.data.BranchR2DBCEntity;
+import com.seti.webflux_test.infraestructure.drivenadapter.data.BranchR2DBCEntity;
 
 import lombok.RequiredArgsConstructor;
 import reactor.core.publisher.Flux;
@@ -37,8 +37,7 @@ public class BranchRepositoryImpl implements BranchRepository{
 
     @Override
     public Flux<Branch> findAll() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findAll'");
+        return springDataRepo.findAll().map(BranchR2DBCEntity::toDomain);
     }
 
     @Override

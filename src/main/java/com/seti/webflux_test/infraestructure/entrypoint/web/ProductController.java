@@ -1,6 +1,7 @@
 package com.seti.webflux_test.infraestructure.entrypoint.web;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,6 +18,7 @@ import com.seti.webflux_test.infraestructure.entrypoint.web.in.ProductUpdateRequ
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @RestController
@@ -36,6 +38,12 @@ public class ProductController {
     @ResponseStatus(HttpStatus.OK)
     public Mono<Product> update(@Valid @RequestBody ProductUpdateRequestDTO req){
         return productUseCase.updateProduct(req.toDomain());
+    }
+
+    @GetMapping
+    @ResponseStatus(HttpStatus.OK)
+    public Flux<Product> findAll(){
+        return productUseCase.findAll();
     }
 
     @PatchMapping("/{id}/stock/{quantity}")

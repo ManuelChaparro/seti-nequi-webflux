@@ -1,11 +1,11 @@
-package com.seti.webflux_test.infraestructure.gateway;
+package com.seti.webflux_test.infraestructure.drivenadapter;
 
 import org.springframework.data.r2dbc.repository.R2dbcRepository;
 import org.springframework.stereotype.Repository;
 
 import com.seti.webflux_test.domain.model.Franchise;
 import com.seti.webflux_test.domain.port.FranchiseRepository;
-import com.seti.webflux_test.infraestructure.gateway.data.FranchiseR2DBCEntity;
+import com.seti.webflux_test.infraestructure.drivenadapter.data.FranchiseR2DBCEntity;
 
 import lombok.RequiredArgsConstructor;
 import reactor.core.publisher.Flux;
@@ -35,8 +35,7 @@ public class FranchiseRepositoryImpl implements FranchiseRepository {
 
     @Override
     public Flux<Franchise> findAll() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findAll'");
+        return springDataRepo.findAll().map(FranchiseR2DBCEntity::toDomain);
     }
 
     @Override

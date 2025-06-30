@@ -18,6 +18,7 @@ import com.seti.webflux_test.infraestructure.entrypoint.web.out.StockPerBranchIn
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @RestController
@@ -37,6 +38,12 @@ public class FranchiseController {
     @ResponseStatus(HttpStatus.OK)
     public Mono<Franchise> update(@Valid @RequestBody FranchiseUpdateRequestDTO franchiseRequestDTO){
         return franchiseUseCase.updateFranchise(franchiseRequestDTO.toDomain());
+    }
+
+    @GetMapping
+    @ResponseStatus(HttpStatus.OK)
+    public Flux<Franchise> findAll(){
+        return franchiseUseCase.findAll();
     }
 
     @GetMapping("/{id}/productsWithMoreStock")

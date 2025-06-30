@@ -42,4 +42,8 @@ public class BranchUseCase {
                 // la información del producto fue actualizada exitosamente
                 logger.info("Sucursal actualizada: {}", updatedItem));
     }
+
+    public Flux<Branch> findAll() {
+        return branchRepository.findAll();
+    }
 }

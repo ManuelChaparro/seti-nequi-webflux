@@ -1,4 +1,4 @@
-package com.seti.webflux_test.infraestructure.gateway.data;
+package com.seti.webflux_test.infraestructure.drivenadapter.data;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Column;

@@ -94,4 +94,8 @@ public class FranchiseUseCase {
                 branchReportMono,
                 (franchise, branchReports) -> new StockPerBranchInFranchiseReport(franchise.getName(), branchReports));
     }
+
+    public Flux<Franchise> findAll() {
+        return franchiseRepository.findAll();
+    }
 }
