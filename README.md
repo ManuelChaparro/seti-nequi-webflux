@@ -51,5 +51,42 @@ El archivo **.env** debe existir al mismo nivel del archivo docker-compose.yml, 
 
 # Consumo de API REST
 
+Para el consumo de la API, se puede realizar mediante los dos siguientes host
+
+| Ambiente            |  Host                        |
+|---------------------|------------------------------|
+| Despliegue Local    | http://localhost:3000/api    |
+| AWS                 | http://3.148.244.6:3000/api  |
+
+Para efectos prácticos, la implementación de las API por defecto se dejan documentadas apuntando a los servicios de AWS
+
+### Franquicia
+
+| Funcionalidad    | Tipo de Petición |  API                                  |
+|------------------|------------------|---------------------------------------|
+| Crear Franquicia | POST             | http://3.148.244.6:3000/api/franchise |
+
+```json
+{
+    "name": "Nueva Franquicia",
+}
+```
+
+| Funcionalidad         | Tipo de Petición |  API                                  |
+|-----------------------|------------------|---------------------------------------|
+| Actualizar Franquicia | PUT              | http://3.148.244.6:3000/api/franchise |
+
+```json
+{
+    "id" 1, 
+    "name": "Nueva Franquicia",
+}
+```
+(Simulando que el ID 1 Existe en la DB)
+
+| Funcionalidad         | Tipo de Petición |  API                                  |
+|-----------------------|------------------|---------------------------------------|
+| Lista de Franquicias  | GET              | http://3.148.244.6:3000/api/franchise |
+
 ## Consideraciones de diseño
 
