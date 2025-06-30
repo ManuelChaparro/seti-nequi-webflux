@@ -57,8 +57,8 @@ logger.error("SERVER-ERROR: Error de tipo DataIntegrityViolationException: {}", 
 logger.info("SIMULACIÓN DE CORREO: Se actualizo el stock del producto {} a {} unidades.", updatedProduct.getName(), updatedProduct.getStock());
 ```
 
-- Pruebas unitarias con mas de un 60% de coverage total (Integración con Jacoco)
-<img width="1207" alt="imagen" src="https://github.com/user-attachments/assets/a824f891-5d82-450f-a089-8c6a675f48ea" />
+- Pruebas unitarias con mas de un 80% de coverage total (Integración con Jacoco)
+<img width="1220" alt="imagen" src="https://github.com/user-attachments/assets/e8a3cb2f-491c-42c6-943d-9f6aafedd3a0" />
 
 ## Puntos adicionales completados
 
