@@ -78,15 +78,43 @@ Para efectos prácticos, la implementación de las API por defecto se dejan docu
 
 ```json
 {
-    "id" 1, 
+    "id": 1, //(Simulando que el ID 1 Existe en la DB)
     "name": "Nueva Franquicia",
 }
 ```
-(Simulando que el ID 1 Existe en la DB)
 
 | Funcionalidad         | Tipo de Petición |  API                                  |
 |-----------------------|------------------|---------------------------------------|
 | Lista de Franquicias  | GET              | http://3.148.244.6:3000/api/franchise |
+
+### Sucursal
+
+| Funcionalidad    | Tipo de Petición |  API                                  |
+|------------------|------------------|---------------------------------------|
+| Crear Sucursal   | POST             | http://3.148.244.6:3000/api/branch    |
+
+```json
+{
+    "name": "Nueva Sucursal",
+    "franchiseId": 1
+}
+```
+
+| Funcionalidad         | Tipo de Petición |  API                                  |
+|-----------------------|------------------|---------------------------------------|
+| Actualizar Sucursal   | PUT              | http://3.148.244.6:3000/api/branch    |
+
+```json
+{
+    "id": 1, //(Simulando que el ID 1 Existe en la DB)
+    "name": "Cambio de Sucursal a otra Franquicia",
+    "franchiseId": 2
+}
+```
+
+| Funcionalidad         | Tipo de Petición |  API                               |
+|-----------------------|------------------|------------------------------------|
+| Lista de Sucursales   | GET              | http://3.148.244.6:3000/api/branch |
 
 ## Consideraciones de diseño
 
