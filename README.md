@@ -197,3 +197,10 @@ Docker es una maquina virtual que, en escencia, corre por debajo el SO Linux y q
 Se decidio usarlo debido a que, como ya se ha mencionado, facilita el despliegue de la aplicación independientemente del entorno en el que estemos o quien lo esté ejecutando, (Ideal para este caso en el cual se desea realizar el análisis del API REST realizado).
 
 ### AWS ECR, ECS Fargate, RDS
+
+Al momento de realizar cualquier despliegue de aplicación en un entorno real, es necesario evaluar si es rentable realizar la compra de nuestro propio servidor, realizar mantenimientos y establecer las conexiones necesarias a la red para que nuestra aplicación funcione correctamente vía web, sin contar gastos constantes como electricidad, internet y diferentes herramientas de mantenimiento.
+
+Debido a que se trabajó con Docker, AWS ofrece una serie de servicios que permiten el despliegue rápido de una aplicación sin necesidad de preocuparnos de los puntos anteriormente mencionados, además, por facilidad de calificación de la prueba, se exponen los endpoints a partir de estos servicios con el objetivo de aumentar la velocidad de revisión de la implementación.
+
+Se uso ECR y ECS debido a que son dos servicios gestores de imágenes que, nos permiten registrar un historial con las imagenes desarrolladas para nuestra aplicación (ECR) y, desplegar estas imagenes usando Fargate, un concepto de despliegue de imagenes serverless que nos permite exponer nuestra API unicamente configurando parametros como la CPU, SO y tiempos maximo de uso (ECS), finalmente, el almacenamiento de nuestra infomación con el motor Postgresql se llevo a cabo en la nube con el servicio RDS que nos permite desplegar bases de datos relacionales, configurando unicamente IPs de entrada, CPU, RAM y Almacenamiento.
+
