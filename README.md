@@ -5,11 +5,60 @@ Este proyecto se realizo con el objetivo de completar el reto llamado "PruebaNeq
 ## Arquitectura
 
 - Manejo de librería reactor Webflux
+
+```java
+    implementation 'org.springframework.boot:spring-boot-starter-webflux'
+```
+  
 - Integración de Scaffolding Clean Architecture
+
+<img width="343" alt="imagen" src="https://github.com/user-attachments/assets/46f9eac8-c633-486b-b6da-b233c23f9547" />
+
 - Uso de operadores map, flatMap, zip, switchIfEmpty
 - Uso de señales onNext, onComplete, onError
+
+```java
+//Ejemplo de metodo que intengra operadores y señales reactivos para actualizar una franquicia
+    public Mono<Franchise> updateFranchise(Franchise franchise) {
+
+        Mono<Boolean> isExistingByNameMono = franchiseRepository.existsByName(franchise.getName());
+        Mono<Franchise> findByIdMono = franchiseRepository.findById(franchise.getId())
+                .switchIfEmpty(Mono.error(new CustomException("La franquicia que desea actualizar no existe.")));
+
+        // Usamos .zip para concatenar dos Mono y continuar con el flujo cuando ambos terminan
+        return Mono.zip(
+                findByIdMono,
+                isExistingByNameMono)
+                .flatMap(results -> {
+                    Franchise existingFranchise = results.getT1();
+                    Boolean existByName = results.getT2();
+
+                    if (Boolean.TRUE.equals(existByName) && !existingFranchise.getName().equals(franchise.getName()))
+                        return Mono
+                                .error(new CustomException("Ya existe una franquicia diferente con ese mismo nombre"));
+
+                    Franchise updatedFranchise = existingFranchise.applyUpdates(franchise);
+                    return franchiseRepository.save(updatedFranchise);
+                })
+                .doOnNext(updatedItem ->
+                // Cumplimiento punto 4. OnNext / DoOnNext
+                // Simulamos el envío de un correo al usuario notificando que
+                // la información del producto fue actualizada exitosamente
+                logger.info("Franquicia actualizada: {}", updatedItem));
+    }
+```
+
 - Uso de librería slf4j para manejo de logs (Implementado para errores y simulación de correos)
+  
+```java
+//Ejemplo de logger para errores controlados
+logger.error("SERVER-ERROR: Error de tipo DataIntegrityViolationException: {}", ex.getMessage());
+//Ejemplo de logger para correos
+logger.info("SIMULACIÓN DE CORREO: Se actualizo el stock del producto {} a {} unidades.", updatedProduct.getName(), updatedProduct.getStock());
+```
+
 - Pruebas unitarias con mas de un 60% de coverage total (Integración con Jacoco)
+<img width="1207" alt="imagen" src="https://github.com/user-attachments/assets/a824f891-5d82-450f-a089-8c6a675f48ea" />
 
 ## Puntos adicionales completados
 
@@ -165,6 +214,24 @@ Para restar 10 productos de stock al producto
 ```shell
     http://3.148.244.6:3000/api/product/1/stock/-10
 ```
+
+# Despliegue de toda la solución en la nube
+
+A continuación se presenta la evidencia del despliegue de la base de datos Postrgresql y la imagen de docker ejecutandose en ECS Fargate
+
+## RDS Postgresql 
+<img width="1508" alt="imagen" src="https://github.com/user-attachments/assets/94f0feb6-9c5a-44cc-8100-12931c9814c8" />
+<img width="1511" alt="imagen" src="https://github.com/user-attachments/assets/5cd4c8c4-46c4-4e8b-84de-e531e95cf9dd" />
+**(Las credenciales de conexión se pueden encontrar en el archivo .env)**
+
+## ECR / ECS Fargate
+**ECR con imagen del proyecto en Docker**
+<img width="1511" alt="imagen" src="https://github.com/user-attachments/assets/c038821b-8297-4620-a28e-f890c1883222" />
+**Cluster ECS con servicio Fargate**
+<img width="1510" alt="imagen" src="https://github.com/user-attachments/assets/85017dcd-c6e5-47e0-896f-6bdb06a05e00" />
+<img width="1511" alt="imagen" src="https://github.com/user-attachments/assets/44bcd320-466b-4fad-b66f-fa2321269859" />
+
+
 
 ## Consideraciones de diseño
 
