@@ -68,6 +68,7 @@ logger.info("SIMULACIÓN DE CORREO: Se actualizo el stock del producto {} a {} u
 | Actualización de nombre para Franquicia  |    Si    |
 | Actualización de nombre para Sucursal    |    Si    |
 | Actualización de nombre para Producto    |    Si    |
+| Aprovisionamiento BD con Cloudformation  |    Si    |
 | Despliegue en la nube                    |    Si    |
 | Consideraciones de diseño                |    Si    |
 
@@ -217,7 +218,130 @@ Para restar 10 productos de stock al producto
 
 # Despliegue de toda la solución en la nube
 
-A continuación se presenta la evidencia del despliegue de la base de datos Postrgresql y la imagen de docker ejecutandose en ECS Fargate
+A continuación se presenta la evidencia del despliegue de la base de datos Postgresql con Cloudformation y la imagen de docker ejecutandose en ECS Fargate
+
+## Archivo para generar BD Postgresql con Cloudformation
+
+```yml
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Despliegue de BD Postgresql con Cloudformation para prueba de SETI
+
+Parameters:
+  DBInstanceIdentifier:
+    Type: String
+    Default: seti-postgresql-cloudformation
+  DBName:
+    Type: String
+    Default: setidb //Cambié el nombre para no usar la BD por defecto, la implementacion actualmente se conecta a la BD por defecto 'public'
+  DBUsername:
+    Type: String
+    Default: setitest
+    NoEcho: true
+  DBPassword:
+    Type: String
+    Default: setitest2025*
+    NoEcho: true
+  DBInstanceClass:
+    Type: String
+    Default: db.t4g.micro
+  DBAllocatedStorage:
+    Type: Number
+    Default: 20
+
+Resources:
+  VPC:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: 10.0.0.0/16
+      EnableDnsSupport: true
+      EnableDnsHostnames: true
+
+  InternetGateway:
+    Type: AWS::EC2::InternetGateway
+  VPCGatewayAttachment:
+    Type: AWS::EC2::VPCGatewayAttachment
+    Properties:
+      VpcId: !Ref VPC
+      InternetGatewayId: !Ref InternetGateway
+
+  PublicSubnet1:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref VPC
+      CidrBlock: 10.0.1.0/24
+      AvailabilityZone: !Select [0, !GetAZs '']
+      MapPublicIpOnLaunch: true
+  PublicSubnet2:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref VPC
+      CidrBlock: 10.0.2.0/24
+      AvailabilityZone: !Select [1, !GetAZs '']
+      MapPublicIpOnLaunch: true
+
+  PublicRouteTable:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref VPC
+  InternetRoute:
+    Type: AWS::EC2::Route
+    DependsOn: InternetGateway
+    Properties:
+      RouteTableId: !Ref PublicRouteTable
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId: !Ref InternetGateway
+  Subnet1RouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: !Ref PublicSubnet1
+      RouteTableId: !Ref PublicRouteTable
+  Subnet2RouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: !Ref PublicSubnet2
+      RouteTableId: !Ref PublicRouteTable
+
+  RDSPublicSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      VpcId: !Ref VPC
+      GroupDescription: Permisos de acceso publicos por IP 0.0.0.0 a RDS Postgresql
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 5432
+          ToPort: 5432
+          CidrIp: 0.0.0.0/0
+
+  DBSubnetGroup:
+    Type: AWS::RDS::DBSubnetGroup
+    Properties:
+      DBSubnetGroupDescription: Subredes estandar para servicio rds
+      SubnetIds:
+        - !Ref PublicSubnet1
+        - !Ref PublicSubnet2
+
+  RDSInstance:
+    Type: AWS::RDS::DBInstance
+    Properties:
+      DBInstanceIdentifier: !Ref DBInstanceIdentifier
+      DBName: !Ref DBName
+      AllocatedStorage: !Ref DBAllocatedStorage
+      DBInstanceClass: !Ref DBInstanceClass
+      Engine: postgres
+      EngineVersion: 17.4
+      MasterUsername: !Ref DBUsername
+      MasterUserPassword: !Ref DBPassword
+      DBSubnetGroupName: !Ref DBSubnetGroup
+      VPCSecurityGroups:
+        - !GetAtt RDSPublicSecurityGroup.GroupId
+      PubliclyAccessible: true
+      DeletionProtection: false
+
+Outputs:
+  DBEndpoint:
+    Description: Cadena de conexion para la base de datos generada con CLoudformation
+    Value: !GetAtt RDSInstance.Endpoint.Address
+```
 
 ## RDS Postgresql 
 <img width="1508" alt="imagen" src="https://github.com/user-attachments/assets/94f0feb6-9c5a-44cc-8100-12931c9814c8" />
@@ -230,8 +354,6 @@ A continuación se presenta la evidencia del despliegue de la base de datos Post
 **Cluster ECS con servicio Fargate**
 <img width="1510" alt="imagen" src="https://github.com/user-attachments/assets/85017dcd-c6e5-47e0-896f-6bdb06a05e00" />
 <img width="1511" alt="imagen" src="https://github.com/user-attachments/assets/44bcd320-466b-4fad-b66f-fa2321269859" />
-
-
 
 ## Consideraciones de diseño
 
