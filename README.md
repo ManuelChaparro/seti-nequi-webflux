@@ -105,7 +105,7 @@ Para el consumo de la API, se puede realizar mediante los dos siguientes host
 | Ambiente            |  Host                        |
 |---------------------|------------------------------|
 | Despliegue Local    | http://localhost:3000/api    |
-| AWS                 | http://3.148.244.6:3000/api  |
+| AWS                 | http://3.15.155.166:3000/api |
 
 Para efectos prácticos, la implementación de las API por defecto se dejan documentadas apuntando a los servicios de AWS
 
@@ -113,7 +113,7 @@ Para efectos prácticos, la implementación de las API por defecto se dejan docu
 
 | Funcionalidad    | Tipo de Petición |  API                                  |
 |------------------|------------------|---------------------------------------|
-| Crear Franquicia | POST             | http://3.148.244.6:3000/api/franchise |
+| Crear Franquicia | POST             | http://3.15.155.166:3000/api/franchise |
 
 ```json
 {
@@ -123,7 +123,7 @@ Para efectos prácticos, la implementación de las API por defecto se dejan docu
 
 | Funcionalidad         | Tipo de Petición |  API                                  |
 |-----------------------|------------------|---------------------------------------|
-| Actualizar Franquicia | PUT              | http://3.148.244.6:3000/api/franchise |
+| Actualizar Franquicia | PUT              | http://3.15.155.166:3000/api/franchise |
 
 ```json
 {
@@ -134,17 +134,17 @@ Para efectos prácticos, la implementación de las API por defecto se dejan docu
 
 | Funcionalidad         | Tipo de Petición |  API                                  |
 |-----------------------|------------------|---------------------------------------|
-| Lista de Franquicias  | GET              | http://3.148.244.6:3000/api/franchise |
+| Lista de Franquicias  | GET              | http://3.15.155.166:3000/api/franchise|
 
 | Funcionalidad                           | Tipo de Petición |  API                                                                        |
 |-----------------------------------------|------------------|-----------------------------------------------------------------------------|
-| Productos con mayor stock por sucursal  | GET              | http://3.148.244.6:3000/api/franchise/{id_franquicia}/productsWithMoreStock |
+| Productos con mayor stock por sucursal  | GET              | http://3.15.155.166:3000/api/franchise/{id_franquicia}/productsWithMoreStock |
 
 # Sucursal
 
 | Funcionalidad    | Tipo de Petición |  API                                  |
 |------------------|------------------|---------------------------------------|
-| Crear Sucursal   | POST             | http://3.148.244.6:3000/api/branch    |
+| Crear Sucursal   | POST             | http://3.15.155.166:3000/api/branch    |
 
 ```json
 {
@@ -155,7 +155,7 @@ Para efectos prácticos, la implementación de las API por defecto se dejan docu
 
 | Funcionalidad         | Tipo de Petición |  API                                  |
 |-----------------------|------------------|---------------------------------------|
-| Actualizar Sucursal   | PUT              | http://3.148.244.6:3000/api/branch    |
+| Actualizar Sucursal   | PUT              | http://3.15.155.166:3000/api/branch    |
 
 ```json
 {
@@ -167,13 +167,13 @@ Para efectos prácticos, la implementación de las API por defecto se dejan docu
 
 | Funcionalidad         | Tipo de Petición |  API                               |
 |-----------------------|------------------|------------------------------------|
-| Lista de Sucursales   | GET              | http://3.148.244.6:3000/api/branch |
+| Lista de Sucursales   | GET              | http://3.15.155.166:3000/api/branch |
 
 # Producto
 
 | Funcionalidad    | Tipo de Petición |  API                                  |
 |------------------|------------------|---------------------------------------|
-| Crear Producto   | POST             | http://3.148.244.6:3000/api/product   |
+| Crear Producto   | POST             | http://3.15.155.166:3000/api/product   |
 
 ```json
 {
@@ -185,7 +185,7 @@ Para efectos prácticos, la implementación de las API por defecto se dejan docu
 
 | Funcionalidad         | Tipo de Petición |  API                                  |
 |-----------------------|------------------|---------------------------------------|
-| Actualizar Producto   | PUT              | http://3.148.244.6:3000/api/product   |
+| Actualizar Producto   | PUT              | http://3.15.155.166:3000/api/product   |
 
 ```json
 {
@@ -197,22 +197,22 @@ Para efectos prácticos, la implementación de las API por defecto se dejan docu
 
 | Funcionalidad         | Tipo de Petición |  API                                |
 |-----------------------|------------------|-------------------------------------|
-| Lista de Productos    | GET              | http://3.148.244.6:3000/api/product |
+| Lista de Productos    | GET              | http://3.15.155.166:3000/api/product |
 
 | Funcionalidad                    | Tipo de Petición   |  API                                                                                    |
 |----------------------------------|--------------------|-----------------------------------------------------------------------------------------|
-| Actualizar Stock de Productos    | PATCH              | http://3.148.244.6:3000/api/product/{id_del_producto}/stock/{cantidad_a_sumar_o_restar} |
+| Actualizar Stock de Productos    | PATCH              | http://3.15.155.166:3000/api/product/{id_del_producto}/stock/{cantidad_a_sumar_o_restar} |
 
 Para sumar 20 productos de stock al producto
 
 ```shell
-    http://3.148.244.6:3000/api/product/1/stock/20
+    http://3.15.155.166:3000/api/product/1/stock/20
 ```
 
 Para restar 10 productos de stock al producto
 
 ```shell
-    http://3.148.244.6:3000/api/product/1/stock/-10
+    http://3.15.155.166:3000/api/product/1/stock/-10
 ```
 
 # Despliegue de toda la solución en la nube
