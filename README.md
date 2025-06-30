@@ -60,7 +60,7 @@ Para el consumo de la API, se puede realizar mediante los dos siguientes host
 
 Para efectos prácticos, la implementación de las API por defecto se dejan documentadas apuntando a los servicios de AWS
 
-### Franquicia
+# Franquicia
 
 | Funcionalidad    | Tipo de Petición |  API                                  |
 |------------------|------------------|---------------------------------------|
@@ -68,7 +68,7 @@ Para efectos prácticos, la implementación de las API por defecto se dejan docu
 
 ```json
 {
-    "name": "Nueva Franquicia",
+    "name": "Tienda Electrónica",
 }
 ```
 
@@ -79,7 +79,7 @@ Para efectos prácticos, la implementación de las API por defecto se dejan docu
 ```json
 {
     "id": 1, //(Simulando que el ID 1 Existe en la DB)
-    "name": "Nueva Franquicia",
+    "name": "Electronics.co",
 }
 ```
 
@@ -87,7 +87,7 @@ Para efectos prácticos, la implementación de las API por defecto se dejan docu
 |-----------------------|------------------|---------------------------------------|
 | Lista de Franquicias  | GET              | http://3.148.244.6:3000/api/franchise |
 
-### Sucursal
+# Sucursal
 
 | Funcionalidad    | Tipo de Petición |  API                                  |
 |------------------|------------------|---------------------------------------|
@@ -95,7 +95,7 @@ Para efectos prácticos, la implementación de las API por defecto se dejan docu
 
 ```json
 {
-    "name": "Nueva Sucursal",
+    "name": "Electronics - Sede Medellín",
     "franchiseId": 1
 }
 ```
@@ -107,7 +107,7 @@ Para efectos prácticos, la implementación de las API por defecto se dejan docu
 ```json
 {
     "id": 1, //(Simulando que el ID 1 Existe en la DB)
-    "name": "Cambio de Sucursal a otra Franquicia",
+    "name": "Rebranding / ElectronInc - Sede Tunja",
     "franchiseId": 2
 }
 ```
@@ -115,6 +115,52 @@ Para efectos prácticos, la implementación de las API por defecto se dejan docu
 | Funcionalidad         | Tipo de Petición |  API                               |
 |-----------------------|------------------|------------------------------------|
 | Lista de Sucursales   | GET              | http://3.148.244.6:3000/api/branch |
+
+# Producto
+
+| Funcionalidad    | Tipo de Petición |  API                                  |
+|------------------|------------------|---------------------------------------|
+| Crear Producto   | POST             | http://3.148.244.6:3000/api/product   |
+
+```json
+{
+    "name": "Laptop",
+    "stock": 100,
+    "branch": 1
+}
+```
+
+| Funcionalidad         | Tipo de Petición |  API                                  |
+|-----------------------|------------------|---------------------------------------|
+| Actualizar Producto   | PUT              | http://3.148.244.6:3000/api/product   |
+
+```json
+{
+    "id": 1, //(Simulando que el ID 1 Existe en la DB)
+    "name": "Asus Vivobook 2025 32GB RAM 1TB SSD",
+    "branch": null //(No es necesario actualizar el objeto del que depende)
+}
+```
+
+| Funcionalidad         | Tipo de Petición |  API                                |
+|-----------------------|------------------|-------------------------------------|
+| Lista de Productos    | GET              | http://3.148.244.6:3000/api/product |
+
+| Funcionalidad                    | Tipo de Petición   |  API                                                                                    |
+|----------------------------------|--------------------|-----------------------------------------------------------------------------------------|
+| Actualizar Stock de Productos    | PATCH              | http://3.148.244.6:3000/api/product/{id_del_producto}/stock/{cantidad_a_sumar_o_restar} |
+
+Para sumar 20 productos de stock al producto
+
+```shell
+    http://3.148.244.6:3000/api/product/1/stock/20
+```
+
+Para restar 10 productos de stock al producto
+
+```shell
+    http://3.148.244.6:3000/api/product/1/stock/-10
+```
 
 ## Consideraciones de diseño
 
