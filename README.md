@@ -353,7 +353,7 @@ Outputs:
 <img width="1511" alt="imagen" src="https://github.com/user-attachments/assets/c038821b-8297-4620-a28e-f890c1883222" />
 **Cluster ECS con servicio Fargate**
 <img width="1510" alt="imagen" src="https://github.com/user-attachments/assets/85017dcd-c6e5-47e0-896f-6bdb06a05e00" />
-<img width="1511" alt="imagen" src="https://github.com/user-attachments/assets/44bcd320-466b-4fad-b66f-fa2321269859" />
+<img width="1511" alt="imagen" src="https://github.com/user-attachments/assets/fc324e88-4de3-4a33-b825-7b196a4ee7dd" />
 
 ## Consideraciones de diseño
 
